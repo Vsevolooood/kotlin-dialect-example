@@ -1,0 +1,13 @@
+build
+.build
+do-test*
+.DS_Store
+emb64.kt
+.gradle
+.idea
+ignore.*
+kd.kt
+.kotlin
+kotlin-js-store
+local.properties
+.swiftpm
