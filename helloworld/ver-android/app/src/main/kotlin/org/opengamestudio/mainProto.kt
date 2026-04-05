@@ -6,5 +6,10 @@ object MainProto {
     init {
         ctrl = KDController(MainContext())
         setupComponentDebugging(ctrl, "Main")
+        arrayOf(
+            ::mainShouldResetVisibility,
+        ).forEach { f ->
+            ctrl.registerFunction { c -> f(c as MainContext) }
+        }
     }
 }

@@ -10,3 +10,4 @@ MainContext:
     type: context
     fields:
         didLaunch: Bool
+        isVisible: Bool
