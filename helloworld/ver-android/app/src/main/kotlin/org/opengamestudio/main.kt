@@ -8,6 +8,7 @@ object MainComponent {
     init {
         val vm = VM
         val oneliners = arrayOf(
+            "greetingText", { c: MC -> vm.mainGreetingText.value = c.greetingText },
             "isVisible", { c: MC -> vm.mainIsVisible.value = c.isVisible },
         )
         registerOneliners(mainCtrl(), oneliners)

@@ -30,7 +30,15 @@ fun MainView(
             contentAlignment = Alignment.Center,
             modifier = Modifier.fillMaxSize()
         ) {
-            Text("Hello world")
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(vm.mainGreetingText.value)
+                Spacer(modifier = Modifier.height(10.dp))
+                OutlinedButton(
+                    onClick = { mainSet("didClickChangeText", true) },
+                ) {
+                    Text("Change text")
+                }
+            }
         }
     }
 }
