@@ -8,13 +8,16 @@ object MainComponent {
     init {
         val vm = VM
         val oneliners = arrayOf(
-            "greetingText", { c: MC -> vm.mainGreetingText.value = c.greetingText },
-            "isVisible", { c: MC -> vm.mainIsVisible.value = c.isVisible },
+            F.isVisible, { c: MC -> vm.mainIsVisible.value = c.isVisible },
+            F.greetingText, { c: MC ->
+                vm.mainGreetingText.value = c.greetingText
+                vm.mainCounter.value = c.counter},
+            F.counter, {c: MC -> vm.mainCounter.value = c.counter }
         )
         registerOneliners(mainCtrl(), oneliners)
     }
 
     fun setup() {
-        mainSet("didLaunch", true)
+        mainSet(F.didLaunch, true)
     }
 }

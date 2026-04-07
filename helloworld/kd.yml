@@ -13,3 +13,4 @@ MainContext:
         didLaunch: Bool
         greetingText: String
         isVisible: Bool
+        counter: Int

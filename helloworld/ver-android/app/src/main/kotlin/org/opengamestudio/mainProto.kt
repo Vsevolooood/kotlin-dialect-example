@@ -9,6 +9,7 @@ object MainProto {
         arrayOf(
             ::mainShouldResetGreetingText,
             ::mainShouldResetVisibility,
+            ::mainShouldIncrementCounter  // ← добавить
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }
         }
