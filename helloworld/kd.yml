@@ -1,7 +1,7 @@
 version: 3
 
 output:
-    ver-android/app/src/main/kotlin/org/opengamestudio/ignore.kt:
+    ver-android/app/src/main/kotlin/org/opengamestudio/ignore.kd.kt:
         type: kotlin
 
 kotlin: package org.opengamestudio
@@ -13,4 +13,4 @@ MainContext:
         didLaunch: Bool
         greetingText: String
         isVisible: Bool
-        counter: Int
+        tasksList: List(String)
