@@ -1,35 +1,38 @@
 package org.opengamestudio
 
-//<!-- Shoulds -->
-
-// Specify greeting text
-//
-// Conditions:
-// 1. Did launch
-// 2. Did click `Change text` button
-
-
-fun mainShouldResetGreetingText(c: MainContext): MainContext {
-    if (c.recentField == F.didLaunch) {
-        c.greetingText = "Hello, World!"
-        c.recentField = F.greetingText
-        return c
+fun mainSaveTaskInArray(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText) {
+        if (c.TaskTitle.isNotBlank()) {
+            // Добавляем задачу
+            val newList = c.tasksList.toMutableList()
+            newList.add(c.TaskTitle)
+            c.tasksList = newList.toTypedArray()
+            c.TaskTitle = ""
+            c.recentField = F.tasksList
+            return c
+        }
     }
-
-    if (c.recentField == F.didClickChangeText) {
-        c.greetingText = "Умом Россию не понять!"
-        c.recentField = F.greetingText
-        return c
-    }
-
     c.recentField = F.none
     return c
 }
+fun mainToggleTaskCompletion(c: MainContext): MainContext {
+    if (c.recentField == F.completedTasksIndices) {
 
-// Set `main` window visible
-//
-// Conditions:
-// 1. Did launch
+        c.recentField = F.completedTasksIndices
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
+fun mainClearTaskTitle(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText) {
+        c.TaskTitle = ""
+        c.recentField = F.TaskTitle
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
 fun mainShouldResetVisibility(c: MainContext): MainContext {
     if (c.recentField == F.didLaunch) {
         c.isVisible = true

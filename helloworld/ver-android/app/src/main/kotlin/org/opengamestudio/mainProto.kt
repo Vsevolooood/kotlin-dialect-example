@@ -7,8 +7,10 @@ object MainProto {
         ctrl = KDController(MainContext())
         setupComponentDebugging(ctrl, "Main")
         arrayOf(
-            ::mainShouldResetGreetingText,
+            ::mainSaveTaskInArray,
             ::mainShouldResetVisibility,
+            ::mainClearTaskTitle,
+            ::mainToggleTaskCompletion
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }
         }

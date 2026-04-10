@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 
 object VM {
     var androidContext: Context? = null
-    var mainCounter = mutableStateOf(0)
-
-    var mainTaskTitle = mutableStateOf("TODO-Text")
+    var mainTaskTitle = mutableStateOf("")
     var mainIsVisible = mutableStateOf(false)
-    var  tasks = mutableStateListOf<String>()
+    var tasks = mutableStateOf(emptyArray<String>())
+
+    var completedTasksIndices = mutableStateOf(emptySet<Int>())
 }
