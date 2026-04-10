@@ -8,16 +8,7 @@ package org.opengamestudio
 // 1. Did launch
 // 2. Did click `Change text` button
 
-fun mainShouldIncrementCounter(c: MainContext): MainContext {
-    if (c.recentField == F.didClickChangeText) {
-        c.counter += 1
-        c.recentField = F.counter
-        return c
-    }
 
-    c.recentField = F.none
-    return c
-}
 fun mainShouldResetGreetingText(c: MainContext): MainContext {
     if (c.recentField == F.didLaunch) {
         c.greetingText = "Hello, World!"

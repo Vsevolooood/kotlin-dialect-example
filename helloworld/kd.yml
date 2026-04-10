@@ -13,4 +13,4 @@ MainContext:
         didLaunch: Bool
         greetingText: String
         isVisible: Bool
-        tasksList: List(String)
+        tasksList: [String]

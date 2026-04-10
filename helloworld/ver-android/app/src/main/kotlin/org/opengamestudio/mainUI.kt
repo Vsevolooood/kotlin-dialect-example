@@ -31,7 +31,7 @@ import org.opengamestudio.ui.theme.MyApplicationTheme
 fun MainView(
     modifier: Modifier = Modifier,
     vm: VM,
-    onAddTask: (String) -> Unit,  // Callback for adding task
+    //onAddTask: (String) -> Unit,  // Callback for adding task
 ) {
     AnimatedVisibility(
         enter = fadeIn(),
@@ -79,7 +79,8 @@ fun MainView(
                 Button(
                     onClick = {
                         if (vm.mainTaskTitle.value.isNotBlank()) {
-                            onAddTask(vm.mainTaskTitle.value)
+                            vm.tasks.add(vm.mainTaskTitle.value)
+                           // onAddTask(vm.mainTaskTitle.value)
                             vm.mainTaskTitle.value = ""  // Clear input after adding
                         }
                     },
