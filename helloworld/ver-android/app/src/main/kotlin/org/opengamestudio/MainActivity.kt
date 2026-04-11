@@ -13,7 +13,7 @@ class MainActivity: ComponentActivity() {
 
         val vm = VM
         vm.androidContext = this
-        // Launch components after specifying Android Context.
+
         MainComponent.setup()
 
         setContent {

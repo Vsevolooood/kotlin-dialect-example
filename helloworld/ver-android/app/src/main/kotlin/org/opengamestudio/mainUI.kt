@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -73,29 +73,27 @@ fun MainView(
                         .background(Color.LightGray),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    itemsIndexed(vm.tasks.value.toList()) { index, task ->
-                        val isCompleted = vm.completedTasksIndices.value.contains(index)
+                    items(vm.tasks.value.toList()) { task ->
+                        val isCompleted = vm.completedTasks.value.contains(task)
 
                         Text(
                             text = task,
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable {
-                                    val currentSet = vm.completedTasksIndices.value.toMutableSet()
+                                    val currentSet = vm.completedTasks.value.toMutableSet()
                                     if (isCompleted) {
-                                        currentSet.remove(index)
+                                        currentSet.remove(task)
                                     } else {
-                                        currentSet.add(index)
+                                        currentSet.add(task)
                                     }
-                                    mainSet(F.completedTasksIndices, currentSet)
+                                    mainSet(F.completedTasks, currentSet)
                                 },
                             textDecoration = if (isCompleted)
                                 TextDecoration.LineThrough
                             else
                                 TextDecoration.None,
-                            color = if (isCompleted) Color.Gray
-                            else
-                                Color.Black
+                            color = if (isCompleted) Color.Gray else Color.Black
                         )
                     }
                 }

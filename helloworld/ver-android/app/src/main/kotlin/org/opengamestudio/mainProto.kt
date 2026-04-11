@@ -9,8 +9,7 @@ object MainProto {
         arrayOf(
             ::mainSaveTaskInArray,
             ::mainShouldResetVisibility,
-            ::mainClearTaskTitle,
-            ::mainToggleTaskCompletion
+            ::mainClearTaskTitle
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }
         }
