@@ -13,15 +13,6 @@ fun mainSaveTaskInArray(c: MainContext): MainContext {
     return c
 }
 
-fun mainToggleTaskCompletion(c: MainContext): MainContext {
-    if (c.recentField == F.tasks) {
-        c.recentField = F.tasks
-        return c
-    }
-    c.recentField = F.none
-    return c
-}
-
 fun mainClearTaskTitle(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText) {
         c.TaskTitle = ""
