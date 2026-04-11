@@ -10,8 +10,7 @@ object MainComponent {
         val oneliners = arrayOf(
             F.isVisible, { c: MC -> vm.mainIsVisible.value = c.isVisible },
             F.TaskTitle, { c: MC -> vm.mainTaskTitle.value = c.TaskTitle},
-            F.tasksList, { c: MC -> vm.tasks.value = c.tasksList },
-            F.completedTasks, { c: MC -> vm.completedTasks.value = c.completedTasks}
+            F.tasks, { c: MC -> vm.tasks.value = c.tasks }
         )
         registerOneliners(mainCtrl(), oneliners)
     }

@@ -6,6 +6,5 @@ object VM {
     var androidContext: Context? = null
     var mainTaskTitle = mutableStateOf("")
     var mainIsVisible = mutableStateOf(false)
-    var tasks = mutableStateOf(emptySet<String>())
-    var completedTasks = mutableStateOf(emptySet<String>())
+    var tasks = mutableStateOf(emptyMap<String, Boolean>())  // одна мапа
 }

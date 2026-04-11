@@ -65,7 +65,6 @@ fun MainView(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Task list
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -73,21 +72,15 @@ fun MainView(
                         .background(Color.LightGray),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(vm.tasks.value.toList()) { task ->
-                        val isCompleted = vm.completedTasks.value.contains(task)
-
+                    items(vm.tasks.value.toList()) { (task, isCompleted) ->
                         Text(
                             text = task,
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable {
-                                    val currentSet = vm.completedTasks.value.toMutableSet()
-                                    if (isCompleted) {
-                                        currentSet.remove(task)
-                                    } else {
-                                        currentSet.add(task)
-                                    }
-                                    mainSet(F.completedTasks, currentSet)
+                                    val newMap = vm.tasks.value.toMutableMap()
+                                    newMap[task] = !isCompleted
+                                    mainSet(F.tasks, newMap)
                                 },
                             textDecoration = if (isCompleted)
                                 TextDecoration.LineThrough

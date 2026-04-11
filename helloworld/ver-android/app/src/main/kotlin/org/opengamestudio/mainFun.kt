@@ -3,9 +3,9 @@ package org.opengamestudio
 fun mainSaveTaskInArray(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText) {
         if (c.TaskTitle.isNotBlank()) {
-            c.tasksList = c.tasksList + c.TaskTitle
+            c.tasks = c.tasks + (c.TaskTitle to false)
             c.TaskTitle = ""
-            c.recentField = F.tasksList
+            c.recentField = F.tasks
             return c
         }
     }
@@ -13,7 +13,14 @@ fun mainSaveTaskInArray(c: MainContext): MainContext {
     return c
 }
 
-
+fun mainToggleTaskCompletion(c: MainContext): MainContext {
+    if (c.recentField == F.tasks) {
+        c.recentField = F.tasks
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
 
 fun mainClearTaskTitle(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText) {
