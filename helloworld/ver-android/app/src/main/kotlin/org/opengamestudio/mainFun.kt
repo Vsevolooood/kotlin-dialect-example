@@ -29,7 +29,6 @@ fun mainShouldResetVisibility(c: MainContext): MainContext {
         c.recentField = F.isVisible
         return c
     }
-
     c.recentField = F.none
     return c
 }
