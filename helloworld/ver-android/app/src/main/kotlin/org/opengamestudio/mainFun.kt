@@ -1,41 +1,35 @@
 package org.opengamestudio
 
-//<!-- Shoulds -->
-
-// Specify greeting text
-//
-// Conditions:
-// 1. Did launch
-// 2. Did click `Change text` button
-fun mainShouldResetGreetingText(c: MainContext): MainContext {
-    if (c.recentField == "didLaunch") {
-        c.greetingText = "Hello, World!"
-        c.recentField = "greetingText"
-        return c
+fun mainSaveTaskInArray(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText) {
+        if (c.TaskTitle.isNotBlank()) {
+            c.tasks = c.tasks + (c.TaskTitle to false)
+            c.TaskTitle = ""
+            c.recentField = F.tasks
+            return c
+        }
     }
-
-    if (c.recentField == "didClickChangeText") {
-        c.greetingText = "Умом Россию не понять!"
-        c.recentField = "greetingText"
-        return c
-    }
-
-    c.recentField = "none"
+    c.recentField = F.none
     return c
 }
 
-// Set `main` window visible
-//
-// Conditions:
-// 1. Did launch
-fun mainShouldResetVisibility(c: MainContext): MainContext {
-    if (c.recentField == "didLaunch") {
-        c.isVisible = true
-        c.recentField = "isVisible"
+fun mainClearTaskTitle(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText) {
+        c.TaskTitle = ""
+        c.recentField = F.TaskTitle
         return c
     }
+    c.recentField = F.none
+    return c
+}
 
-    c.recentField = "none"
+fun mainShouldResetVisibility(c: MainContext): MainContext {
+    if (c.recentField == F.didLaunch) {
+        c.isVisible = true
+        c.recentField = F.isVisible
+        return c
+    }
+    c.recentField = F.none
     return c
 }
 
@@ -48,4 +42,3 @@ fun mainCtrl(): KDController {
 fun mainSet(k: String, v: Any) {
     MainProto.ctrl.set(k, v)
 }
-
