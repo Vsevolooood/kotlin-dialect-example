@@ -47,7 +47,7 @@ fun MainView(
                 OutlinedTextField(
                     label = { Text("Задача") },
                     value = vm.mainTaskTitle.value,
-                    onValueChange = { vm.mainTaskTitle.value = it },
+                    onValueChange = { mainSet(F.TaskTitle, it) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
@@ -55,10 +55,7 @@ fun MainView(
                     ),
                     keyboardActions = androidx.compose.foundation.text.KeyboardActions(
                         onDone = {
-                            if (vm.mainTaskTitle.value.isNotBlank()) {
-                                mainSet(F.TaskTitle, vm.mainTaskTitle.value)
-                                mainSet(F.didClickSaveText, true)
-                            }
+                            mainSet(F.didClickSaveText, true)
                         }
                     )
                 )
@@ -95,10 +92,7 @@ fun MainView(
 
                 Button(
                     onClick = {
-                        if (vm.mainTaskTitle.value.isNotBlank()) {
-                            mainSet(F.TaskTitle, vm.mainTaskTitle.value)
-                            mainSet(F.didClickSaveText, true)
-                        }
+                        mainSet(F.didClickSaveText, true)
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
