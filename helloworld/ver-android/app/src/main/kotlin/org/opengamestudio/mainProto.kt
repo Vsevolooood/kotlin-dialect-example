@@ -20,9 +20,9 @@ object MainProto {
         VM.mainIsVisible.value = savedIsVisible
         setupComponentDebugging(ctrl, "Main")
         arrayOf(
-            ::mainSaveTaskInArray,
+            ::mainShouldResetTasks,
             ::mainShouldResetVisibility,
-            ::mainClearTaskTitle,
+            ::mainShouldResetTaskTitle,
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }
         }

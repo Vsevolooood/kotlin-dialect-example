@@ -9,6 +9,7 @@ kotlin: package org.opengamestudio
 MainContext:
     type: context
     fields:
+        didClickResetTasks: Bool
         didClickSaveText: Bool
         didLaunch: Bool
         isVisible: Bool
