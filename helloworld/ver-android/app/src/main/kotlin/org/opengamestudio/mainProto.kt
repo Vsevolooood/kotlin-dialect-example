@@ -8,21 +8,25 @@ object MainProto {
         val savedIsVisible = SaveManager.loadIsVisible()
 
         val initialContext = MainContext(
-            TaskTitle = "",
+            taskTitle = "",
             didClickSaveText = false,
             didLaunch = false,
             isVisible = savedIsVisible,
-            tasks = savedTasks
+            tasks = savedTasks,
+            didClickResetTasks = false,
+            recentField = ""
         )
 
         ctrl = KDController(initialContext)
-        VM.tasks.value = savedTasks
+        VM.tasks.clear()
+        VM.tasks.addAll(savedTasks.toList())
         VM.mainIsVisible.value = savedIsVisible
-        setupComponentDebugging(ctrl, "Main")
+
         arrayOf(
             ::mainShouldResetTasks,
             ::mainShouldResetVisibility,
             ::mainShouldResetTaskTitle,
+            ::mainShouldUpdateTaskList
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }
         }

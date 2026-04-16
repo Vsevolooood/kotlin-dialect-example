@@ -20,4 +20,5 @@ MainContext:
         didLaunch: Bool
         isVisible: Bool
         taskTitle: String
-        tasks: List<MainItem>
+        tasks: [MainItem]
+        toggledTaskTitle: String

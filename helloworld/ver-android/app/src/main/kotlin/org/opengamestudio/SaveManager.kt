@@ -14,22 +14,23 @@ object SaveManager {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    fun saveTasks(tasks: Map<String, Boolean>) {
-        val tasksStr = tasks.entries.joinToString(";") { "${it.key}:${it.value}" }
-        prefs.edit().putString(KEY_TASKS, tasksStr).apply()
-    }
+        fun saveTasks(tasks: Array<MainItem>) {
+            val tasksStr = tasks.joinToString(";") { "${it.title}:${it.isDone}" }
+            prefs.edit().putString(KEY_TASKS, tasksStr).apply()
+        }
 
-    fun loadTasks(): Map<String, Boolean> {
-        val tasksStr = prefs.getString(KEY_TASKS, "") ?: ""
-        if (tasksStr.isEmpty()) return emptyMap()
+        fun loadTasks(): Array<MainItem> {
+            val tasksStr = prefs.getString(KEY_TASKS, "") ?: ""
+            if (tasksStr.isEmpty()) return emptyArray()
 
-        return tasksStr.split(";")
-            .mapNotNull { part ->
-                val split = part.split(":")
-                if (split.size == 2) split[0] to split[1].toBoolean() else null
-            }
-            .toMap()
-    }
+            return tasksStr.split(";")
+                .mapNotNull { part ->
+                    val split = part.split(":")
+                    if (split.size == 2) {
+                        MainItem(title = split[0], isDone = split[1].toBoolean())
+                    } else null
+                }.toTypedArray()
+        }
 
     fun saveIsVisible(isVisible: Boolean) {
         prefs.edit().putBoolean(KEY_IS_VISIBLE, isVisible).apply()

@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -52,7 +51,7 @@ fun MainView(
                 OutlinedTextField(
                     label = { Text("Задача") },
                     value = vm.mainTaskTitle.value,
-                    onValueChange = { mainSet(F.TaskTitle, it) },
+                    onValueChange = { mainSet(F.taskTitle, it) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
@@ -69,7 +68,7 @@ fun MainView(
                                 mainSet(F.didClickSaveText, true)
                             }
                         ) {
-                            Icon(Icons.Default.Clear, contentDescription = "Clear")
+                            Icon(Icons.Default.Clear, contentDescription = "Очистить")
                         }
                     }
                 )
@@ -83,21 +82,19 @@ fun MainView(
                         .background(Color.LightGray),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(vm.tasks.value.toList()) { (task, isCompleted) ->
+                    items(vm.tasks) { item ->
                         Text(
-                            text = task,
+                            text = item.title,
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable {
-                                    val newMap = vm.tasks.value.toMutableMap()
-                                    newMap[task] = !isCompleted
-                                    mainSet(F.tasks, newMap)
+                                    mainSet(F.toggledTaskTitle, item.title)
                                 },
-                            textDecoration = if (isCompleted)
+                            textDecoration = if (item.isDone)
                                 TextDecoration.LineThrough
                             else
                                 TextDecoration.None,
-                            color = if (isCompleted) Color.Gray else Color.Black
+                            color = if (item.isDone) Color.Gray else Color.Black
                         )
                     }
                 }
