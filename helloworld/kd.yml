@@ -6,6 +6,12 @@ output:
 
 kotlin: package org.opengamestudio
 
+MainItem:
+    type: struct
+    fields:
+        isDone: Bool
+        title: String
+
 MainContext:
     type: context
     fields:
@@ -13,5 +19,5 @@ MainContext:
         didClickSaveText: Bool
         didLaunch: Bool
         isVisible: Bool
-        TaskTitle: String
-        tasks: Map<String, Boolean>
+        taskTitle: String
+        tasks: List<MainItem>

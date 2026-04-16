@@ -1,5 +1,7 @@
 package org.opengamestudio
+
 import android.content.Context
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 
 object VM {
@@ -8,5 +10,5 @@ object VM {
     var mainIsVisible = mutableStateOf(false)
 
     var mainTaskTitle = mutableStateOf("")
-    var tasks = mutableStateOf(emptyMap<String, Boolean>())  // одна мапа
+    var tasks = mutableStateListOf<MainItem>()
 }
