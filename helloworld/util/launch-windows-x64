@@ -1,0 +1,6 @@
+#!/bin/bash -e
+SDIR=$(cd "$(dirname "$0")" ; pwd -P)
+BIN=/c/msys64/mingw64/bin
+cp $SDIR/../ver-windows-x64/build/hwW64.exe $BIN
+cp $SDIR/../sdk-windows-x64/hw/build/bin/native/releaseShared/libhw.dll $BIN
+$BIN/hwW64.exe

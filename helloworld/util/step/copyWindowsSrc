@@ -1,0 +1,9 @@
+#!/bin/bash
+
+STEP=$((STEP+1))
+echo -e "\n> > > > Step №$STEP. Copy source files for $DESKTOP"
+
+SRC=$SDIR/../ver-mac-x64/src
+DST=$SDIR/../ver-$DESKTOP/src
+
+rsync -aivc --delete $SRC/ $DST/

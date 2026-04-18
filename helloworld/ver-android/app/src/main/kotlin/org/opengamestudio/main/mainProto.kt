@@ -7,6 +7,7 @@ object MainProto {
         ctrl = KDController(MainContext())
         setupComponentDebugging(ctrl, "Main")
         arrayOf(
+            ::mainShouldLaunch,
             ::mainShouldResetGreetingText,
             ::mainShouldResetVisibility,
         ).forEach { f ->

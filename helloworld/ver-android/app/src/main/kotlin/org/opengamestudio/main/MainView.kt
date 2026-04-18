@@ -16,14 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MainView(
-    modifier: Modifier = Modifier,
-    vm: VM,
-) {
+fun MainView(vm: VM) {
     AnimatedVisibility(
         enter = fadeIn(),
         exit = fadeOut(),
-        modifier = modifier,
+        modifier = Modifier,
         visible = vm.mainIsVisible.value,
     ) {
         Box(

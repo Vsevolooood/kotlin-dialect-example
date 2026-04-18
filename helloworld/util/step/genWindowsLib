@@ -1,0 +1,8 @@
+#!/bin/bash
+
+STEP=$((STEP+1))
+echo -e "\n> > > > Step №$STEP. Generate .lib for SDK"
+
+NAME=$1
+cd $SDIR/../sdk-$DESKTOP/$NAME/build/bin/native/releaseShared
+dlltool --input-def lib$NAME.def --dllname lib$NAME.dll --output-lib lib$NAME.lib

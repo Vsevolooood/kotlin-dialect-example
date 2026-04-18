@@ -11,14 +11,13 @@ class MainActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val vm = VM
-        vm.androidContext = this
+        VM.androidContext = this
         // Launch components after specifying Android Context.
         MainComponent.setup()
 
         setContent {
             MyApplicationTheme {
-                MainView(vm = vm)
+                MainView(VM)
             }
         }
     }
