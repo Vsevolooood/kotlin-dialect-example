@@ -19,8 +19,8 @@ MainContext:
         didClickSaveText: Bool
         didClickToSave: Bool
         didLaunch: Bool
-        saveString: String
         isVisible: Bool
+        saveString: String
         taskTitle: String
         tasks: [MainItem]
         toggledTaskTitle: String
