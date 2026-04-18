@@ -17,6 +17,8 @@ MainContext:
     fields:
         didClickResetTasks: Bool
         didClickSaveText: Bool
+        didClickToSave: Bool
+        saveString: String
         didLaunch: Bool
         isVisible: Bool
         taskTitle: String

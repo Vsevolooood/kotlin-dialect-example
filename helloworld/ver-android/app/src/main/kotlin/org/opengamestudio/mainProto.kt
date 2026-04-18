@@ -4,29 +4,28 @@ object MainProto {
     val ctrl: KDController
 
     init {
-        val savedTasks = SaveManager.loadTasks()
-        val savedIsVisible = SaveManager.loadIsVisible()
+            // Пустой начальный контекст (данные загрузятся через редюсеры)
+            val initialContext = MainContext(
+                taskTitle = "",
+                didClickSaveText = false,
+                didLaunch = false,
+                isVisible = false,  // Временное значение
+                tasks = emptyArray(),  // Временное значение
+                didClickResetTasks = false,
+                recentField = ""
+            )
 
-        val initialContext = MainContext(
-            taskTitle = "",
-            didClickSaveText = false,
-            didLaunch = false,
-            isVisible = savedIsVisible,
-            tasks = savedTasks,
-            didClickResetTasks = false,
-            recentField = ""
-        )
 
         ctrl = KDController(initialContext)
-        VM.tasks.clear()
-        VM.tasks.addAll(savedTasks.toList())
-        VM.mainIsVisible.value = savedIsVisible
 
         arrayOf(
+            ::mainSouldLoadTasksFromPreferences,
             ::mainShouldResetTasks,
             ::mainShouldResetVisibility,
             ::mainShouldResetTaskTitle,
-            ::mainShouldUpdateTaskList
+            ::mainShouldUpdateTaskList,
+            ::mainSouldSaveTasksToPreferences,
+
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }
         }
