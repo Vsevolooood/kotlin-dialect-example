@@ -18,8 +18,8 @@ MainContext:
         didClickResetTasks: Bool
         didClickSaveText: Bool
         didClickToSave: Bool
-        saveString: String
         didLaunch: Bool
+        saveString: String
         isVisible: Bool
         taskTitle: String
         tasks: [MainItem]
