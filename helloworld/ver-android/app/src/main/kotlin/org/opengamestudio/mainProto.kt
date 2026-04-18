@@ -4,25 +4,13 @@ object MainProto {
     val ctrl: KDController
 
     init {
-            // Пустой начальный контекст (данные загрузятся через редюсеры)
-            val initialContext = MainContext(
-                taskTitle = "",
-                didClickSaveText = false,
-                didLaunch = false,
-                isVisible = false,  // Временное значение
-                tasks = emptyArray(),  // Временное значение
-                didClickResetTasks = false,
-                recentField = ""
-            )
-
-
-        ctrl = KDController(initialContext)
+        ctrl = KDController(MainContext())
 
         arrayOf(
             ::mainSouldLoadTasksFromPreferences,
-            ::mainShouldResetTasks,
+            ::mainShouldAddTask,
+            ::mainShouldClearTaskTitle,
             ::mainShouldResetVisibility,
-            ::mainShouldResetTaskTitle,
             ::mainShouldUpdateTaskList,
             ::mainSouldSaveTasksToPreferences,
 

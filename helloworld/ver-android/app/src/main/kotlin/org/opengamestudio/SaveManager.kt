@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 object SaveManager {
     private const val PREFS_NAME = "todo_app_prefs"
     private const val KEY_TASKS = "tasks"
-    private const val KEY_IS_VISIBLE = "is_visible"
 
     private lateinit var prefs: SharedPreferences
 

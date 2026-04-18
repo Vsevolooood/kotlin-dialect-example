@@ -56,14 +56,25 @@ fun parseTasksString(tasksString: String): Array<MainItem> {
         }.toTypedArray()
 }
 
-// СУЩЕСТВУЮЩИЕ ФУНКЦИИ
+//  ФУНКЦИИ РАБОТЫ С UI
 
-fun mainShouldResetTasks(c: MainContext): MainContext {
+fun mainShouldAddTask(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText) {
         if (c.taskTitle.isNotBlank()) {
             c.tasks = c.tasks + MainItem(title = c.taskTitle, isDone = false)
+            c.recentField = F.tasks  // Сообщаем, что изменилось поле tasks
+            return c
+        }
+    }
+    c.recentField = F.none
+    return c
+}
+
+fun mainShouldClearTaskTitle(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText) {
+        if (c.taskTitle.isNotBlank()) {  // Проверяем то же условие
             c.taskTitle = ""
-            c.recentField = F.tasks
+            c.recentField = F.taskTitle  // Сообщаем, что изменилось поле taskTitle
             return c
         }
     }
