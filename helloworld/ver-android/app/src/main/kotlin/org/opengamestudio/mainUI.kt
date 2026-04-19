@@ -14,13 +14,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 
@@ -47,20 +53,26 @@ fun MainView(
                 OutlinedTextField(
                     label = { Text("Задача") },
                     value = vm.mainTaskTitle.value,
-                    onValueChange = { vm.mainTaskTitle.value = it },
+                    onValueChange = { mainSet(F.taskTitle, it) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                        imeAction = androidx.compose.ui.text.input.ImeAction.Done
+                        imeAction = ImeAction.Done
                     ),
                     keyboardActions = androidx.compose.foundation.text.KeyboardActions(
                         onDone = {
-                            if (vm.mainTaskTitle.value.isNotBlank()) {
-                                mainSet(F.TaskTitle, vm.mainTaskTitle.value)
+                            mainSet(F.didClickSaveText, true)
+                        }
+                    ),
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
                                 mainSet(F.didClickSaveText, true)
                             }
+                        ) {
+                            Icon(Icons.Default.Clear, contentDescription = "Очистить")
                         }
-                    )
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -69,40 +81,25 @@ fun MainView(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f, fill = false)
+                        .clip(RoundedCornerShape(10.dp))
                         .background(Color.LightGray),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(vm.tasks.value.toList()) { (task, isCompleted) ->
+                    items(vm.tasks) { item ->
                         Text(
-                            text = task,
+                            text = item.title,
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable {
-                                    val newMap = vm.tasks.value.toMutableMap()
-                                    newMap[task] = !isCompleted
-                                    mainSet(F.tasks, newMap)
+                                    mainSet(F.toggledTaskTitle, item.title)
                                 },
-                            textDecoration = if (isCompleted)
+                            textDecoration = if (item.isDone)
                                 TextDecoration.LineThrough
                             else
                                 TextDecoration.None,
-                            color = if (isCompleted) Color.Gray else Color.Black
+                            color = if (item.isDone) Color.Gray else Color.Black
                         )
                     }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(
-                    onClick = {
-                        if (vm.mainTaskTitle.value.isNotBlank()) {
-                            mainSet(F.TaskTitle, vm.mainTaskTitle.value)
-                            mainSet(F.didClickSaveText, true)
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Задать задачу")
                 }
             }
         }

@@ -1,3 +1,4 @@
+// MainComponent.kt
 package org.opengamestudio
 
 typealias MC = MainContext
@@ -7,17 +8,13 @@ object MainComponent {
         val vm = VM
         val oneliners = arrayOf(
             F.isVisible, { c: MC -> vm.mainIsVisible.value = c.isVisible },
-            F.TaskTitle, { c: MC -> vm.mainTaskTitle.value = c.TaskTitle},
-            F.tasks, { c: MC -> vm.tasks.value = c.tasks }
+            F.taskTitle, { c: MC -> vm.mainTaskTitle.value = c.taskTitle },
+            F.tasks, { c: MC ->
+                vm.tasks.clear()
+                vm.tasks.addAll(c.tasks)
+            }
         )
         registerOneliners(mainCtrl(), oneliners)
-        mainCtrl().registerFieldCallback(F.tasks) { c ->
-            SaveManager.saveTasks((c as MC).tasks)
-        }
-
-        mainCtrl().registerFieldCallback(F.isVisible) { c ->
-            SaveManager.saveIsVisible((c as MC).isVisible)
-        }
     }
 
     fun setup() {
