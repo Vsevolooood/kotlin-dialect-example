@@ -9,12 +9,14 @@ kotlin: package org.opengamestudio
 MainItem:
     type: struct
     fields:
+        id: String
         isDone: Bool
         title: String
 
 MainContext:
     type: context
     fields:
+        didClickRemoveTasks: Bool
         didClickResetTasks: Bool
         didClickSaveText: Bool
         didClickToSave: Bool
@@ -23,4 +25,4 @@ MainContext:
         saveString: String
         taskTitle: String
         tasks: [MainItem]
-        toggledTaskTitle: String
+        toggledTaskID: String
