@@ -5,11 +5,17 @@ object MainProto {
 
     init {
         ctrl = KDController(MainContext())
-        setupComponentDebugging(ctrl, "Main")
+
         arrayOf(
-            ::mainShouldLaunch,
-            ::mainShouldResetGreetingText,
+            ::mainSouldLoadTasksFromPreferences,
+            ::mainShouldAddTask,
+            ::mainShouldClearTaskTitle,
             ::mainShouldResetVisibility,
+            ::mainShouldUpdateTaskList,
+            ::mainSouldSaveTasksToPreferences,
+            ::mainSouldDeleteAllTasks,
+            ::mainSouldDeleteAllTasksFromPreferences
+
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }
         }

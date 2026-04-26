@@ -20,11 +20,23 @@ c++sdk: package org.opengamestudio
 c++sdk: import kotlinx.cinterop.*
 kotlin: package org.opengamestudio
 
+MainItem:
+    type: struct
+    fields:
+        id: String
+        isDone: Bool
+        title: String
+
 MainContext:
     type: context
     fields:
-        didClickChangeText: Bool
+        didClickRemoveTasks: Bool
+        didClickResetTasks: Bool
+        didClickSaveText: Bool
+        didClickToSave: Bool
         didLaunch: Bool
-        didSetup: Bool
-        greetingText: String
         isVisible: Bool
+        saveString: String
+        taskTitle: String
+        tasks: [MainItem]
+        toggledTaskID: String
