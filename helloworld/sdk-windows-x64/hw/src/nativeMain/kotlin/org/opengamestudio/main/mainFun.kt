@@ -1,76 +1,150 @@
 package org.opengamestudio
 
-//<!-- Shoulds -->
+// функции загрузки
 
-// Launch only once
-//
-// Purpose: Work around Android's activity restart
-//
-// Conditions:
-// 1. UI has been created the first time
-fun mainShouldLaunch(c: MainContext): MainContext {
-    if (
-        c.recentField == F.didSetup &&
-        !c.didLaunch
-    ) {
-        c.didLaunch = true
-        c.recentField = F.didLaunch
-        return c
-    }
-
-    c.recentField = F.none
-    return c
-}
-
-// Specify greeting text
-//
-// Conditions:
-// 1. Did launch
-// 2. Did click `Change text` button
-fun mainShouldResetGreetingText(c: MainContext): MainContext {
+fun mainSouldLoadTasksFromPreferences(c: MainContext): MainContext {
     if (c.recentField == F.didLaunch) {
-        c.greetingText = "Hello, World!"
-        c.recentField = F.greetingText
+        try {
+            val tasksString = SaveManager.loadTasksRaw()
+            if (tasksString.isNotEmpty()) {
+                c.tasks = parseTasksString(tasksString)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        c.recentField = F.tasks
         return c
     }
-
-    if (c.recentField == F.didClickChangeText) {
-        c.greetingText = "Умом Россию не понять!"
-        c.recentField = F.greetingText
-        return c
-    }
-
     c.recentField = F.none
     return c
 }
 
-// Set `main` window visible
-//
-// Conditions:
-// 1. Did launch
+
+
+// ФУНКЦИИ СОХРАНЕНИЯ И УДАЛЕНИЯ
+fun mainSouldDeleteAllTasksFromPreferences(c: MainContext): MainContext{
+    if (c.recentField == F.didClickRemoveTasks) {
+        try {
+            SaveManager.deleteAllTasks()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        c.recentField = F.none
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
+fun mainSouldSaveTasksToPreferences(c: MainContext): MainContext {
+    if (c.recentField == F.tasks) {
+        try {
+            val tasksString = formatTasksToString(c.tasks)
+            SaveManager.saveTasksRaw(tasksString)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        c.recentField = F.none
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+
+fun formatTasksToString(tasks: Array<MainItem>): String {
+    return tasks.joinToString("|") { "${it.id}&${it.title}&${it.isDone}" }
+}
+
+fun parseTasksString(tasksString: String): Array<MainItem> {
+    if (tasksString.isEmpty()) return emptyArray()
+
+    return tasksString.split("|")
+        .mapNotNull { part ->
+            val split = part.split("&")
+            if (split.size == 3) {
+                MainItem(
+                    id = split[0],
+                    title = split[1],
+                    isDone = split[2].toBoolean()
+                )
+            } else null
+        }.toTypedArray()
+}
+
+//  ФУНКЦИИ РАБОТЫ С UI
+
+fun mainShouldAddTask(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText) {
+        if (c.taskTitle.isNotBlank()) {
+            c.tasks = c.tasks + MainItem( id = java.util.UUID.randomUUID().toString(), title = c.taskTitle, isDone = false)
+            c.recentField = F.tasks
+            return c
+        }
+    }
+    c.recentField = F.none
+    return c
+}
+fun mainSouldDeleteAllTasks(c: MainContext): MainContext{
+    if (c.recentField == F.didClickRemoveTasks){
+        c.tasks = emptyArray()
+        c.recentField = F.tasks
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
+fun mainShouldClearTaskTitle(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText) {
+        if (c.taskTitle.isNotBlank()) {  // Проверяем то же условие
+            c.taskTitle = ""
+            c.recentField = F.taskTitle  // Сообщаем, что изменилось поле taskTitle
+            return c
+        }
+    }
+    c.recentField = F.none
+    return c
+}
+
+fun mainShouldUpdateTaskList(c: MainContext): MainContext {
+    if (c.recentField == F.toggledTaskID) {
+        val updatedTasks = c.tasks.map { task ->
+            if (task.id == c.toggledTaskID) {
+                MainItem(id = task.id, title = task.title, isDone = !task.isDone)
+            } else {
+                task
+            }
+        }.toTypedArray()
+        c.tasks = updatedTasks
+        c.recentField = F.tasks
+        c.toggledTaskID = ""
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
+
+fun mainShouldResetTaskTitle(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText) {
+        c.taskTitle = ""
+        c.recentField = F.taskTitle
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
+
 fun mainShouldResetVisibility(c: MainContext): MainContext {
     if (c.recentField == F.didLaunch) {
         c.isVisible = true
         c.recentField = F.isVisible
         return c
     }
-
     c.recentField = F.none
     return c
 }
 
-//<!-- Other functions -->
-
 fun mainCtrl(): KDController {
     return MainProto.ctrl
-}
-
-fun mainCtrlCtx(): MainContext {
-    return MainProto.ctrl.context as MainContext
-}
-
-fun mainCtrlCtxField(): String {
-    return MainProto.ctrl.context.recentField
 }
 
 fun mainSet(k: String, v: Any) {
