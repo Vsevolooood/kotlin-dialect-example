@@ -1,0 +1,17 @@
+#!/bin/bash -e
+SDIR=$(cd "$(dirname "$0")" ; pwd -P)
+T=$SDIR/step
+source $SDIR/other
+
+DESKTOP=windows-x64
+
+$SDIR/gen-kd
+
+STEP=0
+# SDK
+source $T/copyWindowsSDK
+source $T/buildDesktopSDK
+source $T/genWindowsLib hw
+# App
+source $T/copyWindowsSrc
+source $T/buildDesktop

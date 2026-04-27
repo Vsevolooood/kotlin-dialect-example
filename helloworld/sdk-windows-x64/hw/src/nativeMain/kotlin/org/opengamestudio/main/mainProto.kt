@@ -13,6 +13,8 @@ object MainProto {
             ::mainShouldResetVisibility,
             ::mainShouldUpdateTaskList,
             ::mainSouldSaveTasksToPreferences,
+            ::mainSouldDeleteAllTasks,
+            ::mainSouldDeleteAllTasksFromPreferences
 
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }

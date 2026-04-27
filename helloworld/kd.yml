@@ -3,18 +3,34 @@ version: 3
 output:
     ver-android/app/src/main/kotlin/org/opengamestudio/ignore.kd.kt:
         type: kotlin
+    sdk-mac-x64/hw/src/nativeMain/kotlin/org/opengamestudio/ignore.kd.kt:
+        type: c++sdk
+    ver-mac-x64/src/ignore.kd.h:
+        type: c++hdr
+    ver-mac-x64/src/ignore.kd.cpp:
+        type: c++src
+    sdk-windows-x64/hw/src/nativeMain/kotlin/org/opengamestudio/ignore.kd.kt:
+        type: c++sdk
+    ver-windows-x64/src/ignore.kd.h:
+        type: c++hdr
+    ver-windows-x64/src/ignore.kd.cpp:
+        type: c++src
 
+c++sdk: package org.opengamestudio
+c++sdk: import kotlinx.cinterop.*
 kotlin: package org.opengamestudio
 
 MainItem:
     type: struct
     fields:
+        id: String
         isDone: Bool
         title: String
 
 MainContext:
     type: context
     fields:
+        didClickRemoveTasks: Bool
         didClickResetTasks: Bool
         didClickSaveText: Bool
         didClickToSave: Bool
@@ -23,4 +39,4 @@ MainContext:
         saveString: String
         taskTitle: String
         tasks: [MainItem]
-        toggledTaskTitle: String
+        toggledTaskID: String

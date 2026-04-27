@@ -21,8 +21,20 @@ fun mainSouldLoadTasksFromPreferences(c: MainContext): MainContext {
 
 
 
-// ФУНКЦИИ СОХРАНЕНИЯ
-
+// ФУНКЦИИ СОХРАНЕНИЯ И УДАЛЕНИЯ
+fun mainSouldDeleteAllTasksFromPreferences(c: MainContext): MainContext{
+    if (c.recentField == F.didClickRemoveTasks) {
+        try {
+            SaveManager.deleteAllTasks()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        c.recentField = F.none
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
 fun mainSouldSaveTasksToPreferences(c: MainContext): MainContext {
     if (c.recentField == F.tasks) {
         try {
@@ -37,11 +49,10 @@ fun mainSouldSaveTasksToPreferences(c: MainContext): MainContext {
     c.recentField = F.none
     return c
 }
-
 // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 
 fun formatTasksToString(tasks: Array<MainItem>): String {
-    return tasks.joinToString("|") { "${it.title}&${it.isDone}" }
+    return tasks.joinToString("|") { "${it.id}&${it.title}&${it.isDone}" }
 }
 
 fun parseTasksString(tasksString: String): Array<MainItem> {
@@ -50,8 +61,12 @@ fun parseTasksString(tasksString: String): Array<MainItem> {
     return tasksString.split("|")
         .mapNotNull { part ->
             val split = part.split("&")
-            if (split.size == 2) {
-                MainItem(title = split[0], isDone = split[1].toBoolean())
+            if (split.size == 3) {
+                MainItem(
+                    id = split[0],
+                    title = split[1],
+                    isDone = split[2].toBoolean()
+                )
             } else null
         }.toTypedArray()
 }
@@ -61,15 +76,23 @@ fun parseTasksString(tasksString: String): Array<MainItem> {
 fun mainShouldAddTask(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText) {
         if (c.taskTitle.isNotBlank()) {
-            c.tasks = c.tasks + MainItem(title = c.taskTitle, isDone = false)
-            c.recentField = F.tasks  // Сообщаем, что изменилось поле tasks
+            c.tasks = c.tasks + MainItem( id = java.util.UUID.randomUUID().toString(), title = c.taskTitle, isDone = false)
+            c.recentField = F.tasks
             return c
         }
     }
     c.recentField = F.none
     return c
 }
-
+fun mainSouldDeleteAllTasks(c: MainContext): MainContext{
+    if (c.recentField == F.didClickRemoveTasks){
+        c.tasks = emptyArray()
+        c.recentField = F.tasks
+        return c
+    }
+    c.recentField = F.none
+    return c
+}
 fun mainShouldClearTaskTitle(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText) {
         if (c.taskTitle.isNotBlank()) {  // Проверяем то же условие
@@ -83,17 +106,17 @@ fun mainShouldClearTaskTitle(c: MainContext): MainContext {
 }
 
 fun mainShouldUpdateTaskList(c: MainContext): MainContext {
-    if (c.recentField == F.toggledTaskTitle) {
+    if (c.recentField == F.toggledTaskID) {
         val updatedTasks = c.tasks.map { task ->
-            if (task.title == c.toggledTaskTitle) {
-                MainItem(title = task.title, isDone = !task.isDone)
+            if (task.id == c.toggledTaskID) {
+                MainItem(id = task.id, title = task.title, isDone = !task.isDone)
             } else {
                 task
             }
         }.toTypedArray()
         c.tasks = updatedTasks
         c.recentField = F.tasks
-        c.toggledTaskTitle = ""
+        c.toggledTaskID = ""
         return c
     }
     c.recentField = F.none

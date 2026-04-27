@@ -1,0 +1,22 @@
+#include <any>
+#include <cstdio>
+#include <vector>
+
+#include "main.h"
+#include "ignore.kd.h"
+
+#define CB(code) std::make_any<std::function<void(MainContext)>>([&](MainContext c) { code })
+#define VM VM::singleton()
+
+
+MainComponent::MainComponent() {
+    std::vector<std::any> oneliners = {
+        F.greetingText, CB( VM.mainSetGreetingText(c.greetingText()); ),
+        F.isVisible, CB( VM.mainSetIsVisible(c.isVisible()); ),
+    };
+    MainEffectRegistry::registerOneliners(KT.mainCtrl(), oneliners);
+}
+
+void MainComponent::setup() {
+    mainSet(F.didSetup, true);
+}

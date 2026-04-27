@@ -7,3 +7,13 @@ CACHE_DIR=$HOME_DIR/dev-cache
 # Kotlin Dialect location
 KD_DIR=$CACHE_DIR/kd
 KD_URL="https://github.com/OGStudio/kotlin-dialect"
+
+# Replace a string in the file
+function replace {
+    file=$1
+    was=$2
+    now=$3
+    cmd="sed -i.backup 's|$was|$now|g' $file"
+    eval "$cmd"
+    rm $file.backup
+}

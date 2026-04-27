@@ -1,0 +1,16 @@
+#!/bin/bash
+
+STEP=$((STEP+1))
+echo -e "\n> > > > Step №$STEP. Copy SDK files for Windows"
+
+FILE=$SDIR/../copy-sdk.txt
+SRC=$SDIR/../ver-android/app/src/main/kotlin/org/opengamestudio
+DST=$SDIR/../sdk-$DESKTOP/hw/src/nativeMain/kotlin/org/opengamestudio
+
+# https://stackoverflow.com/a/1521470/3404710
+cat $FILE | while read file || [[ -n $file ]]; do
+    echo $file
+    dir=`dirname $DST/$file`
+    mkdir -p $dir
+    cp $SRC/$file $DST/$file
+done

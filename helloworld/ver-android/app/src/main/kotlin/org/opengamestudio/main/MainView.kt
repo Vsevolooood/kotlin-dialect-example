@@ -67,7 +67,7 @@ fun MainView(
                     trailingIcon = {
                         IconButton(
                             onClick = {
-                                mainSet(F.didClickSaveText, true)
+                                mainSet(F.didClickRemoveTasks, true)
                             }
                         ) {
                             Icon(Icons.Default.Clear, contentDescription = "Очистить")
@@ -91,7 +91,7 @@ fun MainView(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable {
-                                    mainSet(F.toggledTaskTitle, item.title)
+                                    mainSet(F.toggledTaskID, item.id)
                                 },
                             textDecoration = if (item.isDone)
                                 TextDecoration.LineThrough

@@ -11,3 +11,6 @@ kd.kt
 kotlin-js-store
 local.properties
 .swiftpm
+ver-windows-x64/src/*.h
+ver-windows-x64/src/*.cpp
+ver-windows-x64/src/*.qml
