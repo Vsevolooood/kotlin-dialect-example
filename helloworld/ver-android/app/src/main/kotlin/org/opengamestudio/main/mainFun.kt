@@ -21,20 +21,7 @@ fun mainSouldLoadTasksFromPreferences(c: MainContext): MainContext {
 
 
 
-// ФУНКЦИИ СОХРАНЕНИЯ И УДАЛЕНИЯ
-fun mainSouldDeleteAllTasksFromPreferences(c: MainContext): MainContext{
-    if (c.recentField == F.didClickRemoveTasks) {
-        try {
-            SaveManager.deleteAllTasks()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        c.recentField = F.none
-        return c
-    }
-    c.recentField = F.none
-    return c
-}
+// ФУНКЦИИ СОХРАНЕНИЯ
 fun mainSouldSaveTasksToPreferences(c: MainContext): MainContext {
     if (c.recentField == F.tasks) {
         try {
@@ -74,19 +61,18 @@ fun parseTasksString(tasksString: String): Array<MainItem> {
 //  ФУНКЦИИ РАБОТЫ С UI
 
 fun mainShouldAddTask(c: MainContext): MainContext {
-    if (c.recentField == F.didClickSaveText) {
-        if (c.taskTitle.isNotBlank()) {
-            c.tasks = c.tasks + MainItem( id = java.util.UUID.randomUUID().toString(), title = c.taskTitle, isDone = false)
-            c.recentField = F.tasks
+    if (c.recentField == F.didClickSaveText && c.taskTitle.isNotBlank()) {
+        c.tasks = c.tasks + MainItem( id = java.util.UUID.randomUUID().toString(), title = c.taskTitle, isDone = false)
+        c.recentField = F.tasks
             return c
-        }
     }
     c.recentField = F.none
     return c
 }
 fun mainSouldDeleteAllTasks(c: MainContext): MainContext{
     if (c.recentField == F.didClickRemoveTasks){
-        c.tasks = emptyArray()
+        val completedTasks = c.tasks.filter { !it.isDone }.toTypedArray()
+        c.tasks = completedTasks
         c.recentField = F.tasks
         return c
     }
@@ -94,12 +80,10 @@ fun mainSouldDeleteAllTasks(c: MainContext): MainContext{
     return c
 }
 fun mainShouldClearTaskTitle(c: MainContext): MainContext {
-    if (c.recentField == F.didClickSaveText) {
-        if (c.taskTitle.isNotBlank()) {  // Проверяем то же условие
+    if (c.recentField == F.didClickSaveText && c.taskTitle.isNotBlank()) {
             c.taskTitle = ""
             c.recentField = F.taskTitle  // Сообщаем, что изменилось поле taskTitle
             return c
-        }
     }
     c.recentField = F.none
     return c
@@ -117,16 +101,6 @@ fun mainShouldUpdateTaskList(c: MainContext): MainContext {
         c.tasks = updatedTasks
         c.recentField = F.tasks
         c.toggledTaskID = ""
-        return c
-    }
-    c.recentField = F.none
-    return c
-}
-
-fun mainShouldResetTaskTitle(c: MainContext): MainContext {
-    if (c.recentField == F.didClickSaveText) {
-        c.taskTitle = ""
-        c.recentField = F.taskTitle
         return c
     }
     c.recentField = F.none

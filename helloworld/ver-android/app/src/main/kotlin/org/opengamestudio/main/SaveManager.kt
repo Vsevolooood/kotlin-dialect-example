@@ -15,9 +15,6 @@ object SaveManager {
     fun saveTasksRaw(tasksString: String) {
         prefs.edit().putString(KEY_TASKS, tasksString).apply()
     }
-    fun deleteAllTasks() {
-        prefs.edit().clear().apply()
-    }
     fun loadTasksRaw(): String {
         return prefs.getString(KEY_TASKS, "") ?: ""
     }
