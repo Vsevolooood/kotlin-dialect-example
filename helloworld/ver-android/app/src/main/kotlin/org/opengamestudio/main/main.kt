@@ -12,7 +12,9 @@ object MainComponent {
             F.tasks, { c: MC ->
                 vm.tasks.clear()
                 vm.tasks.addAll(c.tasks)
-            }
+            },
+            F.loadTasks, { c: MC -> mainLoadTasks() },
+            F.shouldSavaTasks, {c: MC -> mainSaveTasks(c) }
         )
         registerOneliners(mainCtrl(), oneliners)
     }
@@ -20,4 +22,26 @@ object MainComponent {
     fun setup() {
         mainSet(F.didLaunch, true)
     }
+
+    fun mainSaveTasks(c: MainContext){
+        try {
+            val tasksString = formatTasksToString(c.tasks)
+            SaveManager.saveTasksRaw(tasksString)
+        } catch (e: Exception) {
+          e.printStackTrace()
+        }
+
+    }
+    fun mainLoadTasks() {
+        try {
+            val tasksString = SaveManager.loadTasksRaw()
+            if (tasksString.isNotEmpty()) {
+                val tasks = parseTasksString(tasksString)
+                mainSet(F.tasks, tasks)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 }

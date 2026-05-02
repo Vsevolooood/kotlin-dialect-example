@@ -4,15 +4,8 @@ package org.opengamestudio
 
 fun mainSouldLoadTasksFromPreferences(c: MainContext): MainContext {
     if (c.recentField == F.didLaunch) {
-        try {
-            val tasksString = SaveManager.loadTasksRaw()
-            if (tasksString.isNotEmpty()) {
-                c.tasks = parseTasksString(tasksString)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        c.recentField = F.tasks
+        c.loadTasks = true
+        c.recentField = F.loadTasks
         return c
     }
     c.recentField = F.none
@@ -24,13 +17,8 @@ fun mainSouldLoadTasksFromPreferences(c: MainContext): MainContext {
 // ФУНКЦИИ СОХРАНЕНИЯ
 fun mainSouldSaveTasksToPreferences(c: MainContext): MainContext {
     if (c.recentField == F.tasks) {
-        try {
-            val tasksString = formatTasksToString(c.tasks)
-            SaveManager.saveTasksRaw(tasksString)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        c.recentField = F.none
+        c.shouldSavaTasks = true
+        c.recentField = F.shouldSavaTasks
         return c
     }
     c.recentField = F.none
@@ -64,7 +52,7 @@ fun mainShouldAddTask(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText && c.taskTitle.isNotBlank()) {
         c.tasks = c.tasks + MainItem( id = java.util.UUID.randomUUID().toString(), title = c.taskTitle, isDone = false)
         c.recentField = F.tasks
-            return c
+        return c
     }
     c.recentField = F.none
     return c
@@ -90,9 +78,9 @@ fun mainShouldClearTaskTitle(c: MainContext): MainContext {
 }
 
 fun mainShouldUpdateTaskList(c: MainContext): MainContext {
-    if (c.recentField == F.toggledTaskID) {
+    if (c.recentField == F.didSelectTask && c.didSelectTask.isNotBlank()) {
         val updatedTasks = c.tasks.map { task ->
-            if (task.id == c.toggledTaskID) {
+            if (task.id == c.didSelectTask) {
                 MainItem(id = task.id, title = task.title, isDone = !task.isDone)
             } else {
                 task
@@ -100,7 +88,6 @@ fun mainShouldUpdateTaskList(c: MainContext): MainContext {
         }.toTypedArray()
         c.tasks = updatedTasks
         c.recentField = F.tasks
-        c.toggledTaskID = ""
         return c
     }
     c.recentField = F.none
@@ -116,6 +103,9 @@ fun mainShouldResetVisibility(c: MainContext): MainContext {
     c.recentField = F.none
     return c
 }
+
+
+
 
 fun mainCtrl(): KDController {
     return MainProto.ctrl
