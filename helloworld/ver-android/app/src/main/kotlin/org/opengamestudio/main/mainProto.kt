@@ -8,12 +8,11 @@ object MainProto {
 
         arrayOf(
             ::mainSouldLoadTasksFromPreferences,
-            ::mainShouldAddTask,
             ::mainShouldClearTaskTitle,
             ::mainShouldResetVisibility,
-            ::mainShouldUpdateTaskList,
             ::mainSouldSaveTasksToPreferences,
-            ::mainSouldDeleteAllTasks,
+            ::shouldResetTasks
+
 
         ).forEach { f ->
             ctrl.registerFunction { c -> f(c as MainContext) }

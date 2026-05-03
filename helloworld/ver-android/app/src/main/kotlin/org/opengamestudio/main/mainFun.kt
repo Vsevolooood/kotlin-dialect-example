@@ -48,47 +48,37 @@ fun parseTasksString(tasksString: String): Array<MainItem> {
 
 //  ФУНКЦИИ РАБОТЫ С UI
 
-fun mainShouldAddTask(c: MainContext): MainContext {
+fun shouldResetTasks(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText && c.taskTitle.isNotBlank()) {
         c.tasks = c.tasks + MainItem( id = java.util.UUID.randomUUID().toString(), title = c.taskTitle, isDone = false)
         c.recentField = F.tasks
         return c
     }
-    c.recentField = F.none
-    return c
-}
-fun mainSouldDeleteAllTasks(c: MainContext): MainContext{
     if (c.recentField == F.didClickRemoveTasks){
-        val completedTasks = c.tasks.filter { !it.isDone }.toTypedArray()
-        c.tasks = completedTasks
+        c.tasks =  c.tasks.filter { !it.isDone }.toTypedArray()
         c.recentField = F.tasks
         return c
     }
-    c.recentField = F.none
-    return c
-}
-fun mainShouldClearTaskTitle(c: MainContext): MainContext {
-    if (c.recentField == F.didClickSaveText && c.taskTitle.isNotBlank()) {
-            c.taskTitle = ""
-            c.recentField = F.taskTitle  // Сообщаем, что изменилось поле taskTitle
-            return c
-    }
-    c.recentField = F.none
-    return c
-}
-
-fun mainShouldUpdateTaskList(c: MainContext): MainContext {
     if (c.recentField == F.didSelectTask && c.didSelectTask.isNotBlank()) {
-        val updatedTasks = c.tasks.map { task ->
+        c.tasks = c.tasks.map { task ->
             if (task.id == c.didSelectTask) {
                 MainItem(id = task.id, title = task.title, isDone = !task.isDone)
             } else {
                 task
             }
         }.toTypedArray()
-        c.tasks = updatedTasks
         c.recentField = F.tasks
         return c
+    }
+    c.recentField = F.none
+    return c
+}
+
+fun mainShouldClearTaskTitle(c: MainContext): MainContext {
+    if (c.recentField == F.didClickSaveText && c.taskTitle.isNotBlank()) {
+            c.taskTitle = ""
+            c.recentField = F.taskTitle  // Сообщаем, что изменилось поле taskTitle
+            return c
     }
     c.recentField = F.none
     return c
