@@ -91,7 +91,7 @@ fun MainView(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable {
-                                    mainSet(F.toggledTaskID, item.id)
+                                    mainSet(F.didSelectTask, item.id)
                                 },
                             textDecoration = if (item.isDone)
                                 TextDecoration.LineThrough
