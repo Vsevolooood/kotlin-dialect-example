@@ -13,7 +13,7 @@ class MainActivity: ComponentActivity() {
         enableEdgeToEdge()
         val vm = VM
         vm.androidContext = this
-        SaveManager.init(this)
+       // SaveManager.init(this)
         // Launch components after specifying Android Context.
         MainComponent.setup()
         setContent {

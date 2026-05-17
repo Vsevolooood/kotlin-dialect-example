@@ -1,25 +1,38 @@
-#include "KT.h"
 #include "VM.h"
+#include <QDebug>
 
-VM::VM() : QObject() {
-    _mainGreetingText = "TODO-Text";
+VM::VM() : QObject(nullptr) {
     _mainIsVisible = false;
-}
-
-QString VM::mainGreetingText() const & {
-    return _mainGreetingText;
-}
-
-bool VM::mainIsVisible() const {
-    return _mainIsVisible;
-}
-
-void VM::mainSetGreetingText(const QString &value) {
-    _mainGreetingText = value;
-    emit mainDidChangeGreetingText(value);
+    _mainTaskTitle = "";
 }
 
 void VM::mainSetIsVisible(bool value) {
-    _mainIsVisible = value;
-    emit mainDidChangeIsVisible(value);
+    if (_mainIsVisible != value) {
+        _mainIsVisible = value;
+        emit mainDidChangeIsVisible(value);
+    }
+}
+
+void VM::mainSetTaskTitle(const QString &value) {
+    if (_mainTaskTitle != value) {
+        _mainTaskTitle = value;
+        emit mainDidChangeTaskTitle(value);
+    }
+}
+
+void VM::mainSetTasks(const QVariantList &tasksValue) {
+    _tasks = tasksValue;
+    emit mainDidChangeTasks(_tasks);
+}
+
+void VM::clearTasks() {
+    _tasks.clear();
+    emit mainDidChangeTasks(_tasks);
+}
+
+void VM::addAllTasks(const QVariantList &tasksValue) {
+    for (const auto &task : tasksValue) {
+        _tasks.append(task);
+    }
+    emit mainDidChangeTasks(_tasks);
 }

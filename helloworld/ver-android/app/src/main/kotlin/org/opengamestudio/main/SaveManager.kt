@@ -1,21 +1,16 @@
 package org.opengamestudio
 
-import android.content.Context
-import android.content.SharedPreferences
-
 object SaveManager {
-    private const val PREFS_NAME = "todo_app_prefs"
-    private const val KEY_TASKS = "tasks"
+    private var tasks: String = ""
 
-    private lateinit var prefs: SharedPreferences
-
-    fun init(context: Context) {
-        prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    fun init() {
     }
+
     fun saveTasksRaw(tasksString: String) {
-        prefs.edit().putString(KEY_TASKS, tasksString).apply()
+        tasks = tasksString
     }
+
     fun loadTasksRaw(): String {
-        return prefs.getString(KEY_TASKS, "") ?: ""
+        return tasks
     }
 }

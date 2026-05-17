@@ -50,7 +50,7 @@ fun parseTasksString(tasksString: String): Array<MainItem> {
 
 fun shouldResetTasks(c: MainContext): MainContext {
     if (c.recentField == F.didClickSaveText && c.taskTitle.isNotBlank()) {
-        c.tasks = c.tasks + MainItem( id = java.util.UUID.randomUUID().toString(), title = c.taskTitle, isDone = false)
+        c.tasks = c.tasks + MainItem( id = kotlin.random.Random.nextInt().toString(), title = c.taskTitle, isDone = false)
         c.recentField = F.tasks
         return c
     }
